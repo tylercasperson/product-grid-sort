@@ -122,7 +122,7 @@ const ProductState = (props) => {
   return (
     <ProductContext.Provider
       value={{
-        product: state.product,
+        products: state.products,
         productError: state.productError,
         getProducts,
         getSpecificProduct,

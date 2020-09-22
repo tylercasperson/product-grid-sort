@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS ProductGridSort;
 CREATE DATABASE ProductGridSort;
 USE ProductGridSort;
-CREATE TABLE produts (
+CREATE TABLE products (
     id int auto_increment,
     title varChar(255),
     description varChar(255),
@@ -12,7 +12,7 @@ CREATE TABLE produts (
     updatedAt datetime,
     PRIMARY KEY (id)
 );
-INSERT INTO produts (
+INSERT INTO products (
         title,
         description,
         price,
