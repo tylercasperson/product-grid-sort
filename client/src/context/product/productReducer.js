@@ -4,6 +4,7 @@ import {
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
   PRODUCT_ERROR,
+  SET_CURRENT,
 } from '../types';
 
 export default (state, action) => {
@@ -37,6 +38,12 @@ export default (state, action) => {
         ...state,
         productError: action.payload,
       };
+    case SET_CURRENT:
+      return {
+        ...state,
+        current: action.payload,
+      };
+
     default:
       return state;
   }

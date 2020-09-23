@@ -1,30 +1,13 @@
-import React, { useContext, useState } from 'react';
-import ProductContext from '../context/product/productContext';
+import React from 'react';
 
 const ProductLine = (props) => {
-  const productContext = useContext(ProductContext);
-
-  const { addProduct, updateProduct, deleteProduct } = productContext;
-
-  const [lineItem, setLineItem] = useState({
-    title: '',
-    description: '',
-    price: '',
-    quantity: '',
-    imageURL: '',
-  });
-
-  const onChange = (e) => {
-    setLineItem({ ...lineItem, [e.target.name]: e.target.value });
-  };
-
   return (
     <tr>
       <td className='delete' onClick={props.onDelete}>
         Delete
       </td>
       <td className='save' onClick={props.onSave}>
-        Save
+        {props.addSaveText}
       </td>
       <td className='title'>
         <textarea
@@ -32,7 +15,8 @@ const ProductLine = (props) => {
           name='title'
           placeholder='Title'
           value={props.title}
-          onChange={onChange}
+          onClick={props.onClick}
+          onChange={props.onChange}
         ></textarea>
       </td>
       <td>
@@ -41,7 +25,8 @@ const ProductLine = (props) => {
           name='description'
           placeholder='Description'
           value={props.description}
-          onChange={onChange}
+          onClick={props.onClick}
+          onChange={props.onChange}
         ></textarea>
       </td>
       <td>
@@ -50,7 +35,8 @@ const ProductLine = (props) => {
           name='price'
           placeholder='Price'
           value={props.price}
-          onChange={onChange}
+          onClick={props.onClick}
+          onChange={props.onChange}
         ></textarea>
       </td>
       <td>
@@ -59,7 +45,8 @@ const ProductLine = (props) => {
           name='quantity'
           placeholder='Quantity'
           value={props.quantity}
-          onChange={onChange}
+          onClick={props.onClick}
+          onChange={props.onChange}
         ></textarea>
       </td>
       <td>
@@ -68,7 +55,8 @@ const ProductLine = (props) => {
           name='imageURL'
           placeholder='image URL'
           value={props.imageURL}
-          onChange={onChange}
+          onClick={props.onClick}
+          onChange={props.onChange}
         ></textarea>
       </td>
       <td>

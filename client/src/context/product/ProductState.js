@@ -8,12 +8,14 @@ import {
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
   PRODUCT_ERROR,
+  SET_CURRENT,
 } from '../types';
 
 const ProductState = (props) => {
   const initialState = {
     products: [],
     productError: [],
+    current: [],
   };
 
   const [state, dispatch] = useReducer(productReducer, initialState);
@@ -136,17 +138,27 @@ const ProductState = (props) => {
     }
   };
 
+  // Set Current
+  const setCurrent = (product) => {
+    dispatch({
+      type: SET_CURRENT,
+      payload: product,
+    });
+  };
+
   return (
     <ProductContext.Provider
       value={{
         products: state.products,
         productError: state.productError,
+        current: state.current,
         getProducts,
         getSortedProducts,
         getSpecificProduct,
         deleteProduct,
         addProduct,
         updateProduct,
+        setCurrent,
       }}
     >
       {props.children}

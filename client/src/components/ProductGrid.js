@@ -1,29 +1,66 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ProductContext from '../context/product/productContext';
-import ProductLineData from './ProductLineData';
 import ProductLine from './ProductLine';
 
-const ProductGrid = (props) => {
+const ProductGrid = () => {
   const productContext = useContext(ProductContext);
 
   const {
     products,
+    current,
     getProducts,
     getSortedProducts,
-    // getSpecificProduct,
-    // createProduct,
-    // updateProduct,
-    // deleteProduct,
+    deleteProduct,
+    addProduct,
+    updateProduct,
+    // setCurrent,
   } = productContext;
 
-  //   useEffect(() => {
-  //     getProducts();
-  //     // eslint-disable-next-line
-  //   }, []);
+  useEffect(() => {
+    getProducts();
+  }, [productContext, getProducts, current]);
 
-  const clickEdit = () => {
-    getSortedProducts('title', 'ASC');
+  const [lineItem, setLineItem] = useState({
+    id: '',
+    title: '',
+    description: '',
+    price: '',
+    quantity: '',
+    imageURL: '',
+  });
+
+  const { title, description, price, quantity, imageURL } = lineItem;
+
+  const onClick = (productLine) => {
+    setLineItem(productLine);
+    console.log(lineItem);
+  };
+
+  const onChange = (e) => {
+    setLineItem({ ...lineItem, [e.target.name]: e.target.value });
+  };
+
+  const onSave = (key) => {
+    if (key === null) {
+      addProduct(lineItem);
+      //   getProducts();
+      //   window.location.reload();
+    } else {
+      updateProduct(lineItem);
+    }
+  };
+
+  const clearLine = () => {
+    setLineItem({
+      id: '',
+      title: '',
+      description: '',
+      price: '',
+      quantity: '',
+      imageURL: '',
+    });
+    // window.location.reload();
   };
 
   const sort = (column) => {
@@ -100,8 +137,48 @@ const ProductGrid = (props) => {
           </tr>
         </thead>
         <tbody>
-          <ProductLineData />
-          <ProductLine />
+          {products.map((product) => (
+            <ProductLine
+              key={product.id}
+              title={lineItem.id === product.id ? title : product.title}
+              description={
+                lineItem.id === product.id ? description : product.description
+              }
+              price={lineItem.id === product.id ? price : product.price}
+              quantity={
+                lineItem.id === product.id ? quantity : product.quantity
+              }
+              imageURL={
+                lineItem.id === product.id ? imageURL : product.imageURL
+              }
+              onDelete={() => deleteProduct(product.id)}
+              addSaveText='Save'
+              onSave={() => onSave(lineItem)}
+              onChange={onChange}
+              onClick={() => onClick(product, product.id)}
+            />
+          ))}
+          <ProductLine
+            title={lineItem.id === null ? title : ''}
+            description={lineItem.id === null ? description : ''}
+            price={lineItem.id === null ? price : ''}
+            quantity={lineItem.id === null ? quantity : ''}
+            imageURL={lineItem.id === null ? imageURL : ''}
+            onDelete={() => clearLine()}
+            addSaveText='Add'
+            onSave={() => onSave(null)}
+            onChange={onChange}
+            onClick={() =>
+              onClick({
+                id: '',
+                title: '',
+                description: '',
+                price: '',
+                quantity: '',
+                imageURL: '',
+              })
+            }
+          />
         </tbody>
       </Table>
     </div>
