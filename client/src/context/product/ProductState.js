@@ -35,6 +35,23 @@ const ProductState = (props) => {
     }
   };
 
+  // Get Sorted Products
+  const getSortedProducts = async (column, sort) => {
+    try {
+      const res = await axios.get(`/api/products/${column}/${sort}`);
+
+      dispatch({
+        type: GET_PRODUCTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: PRODUCT_ERROR,
+        payload: err.response,
+      });
+    }
+  };
+
   // Get Specific Product
   const getSpecificProduct = async (id) => {
     try {
@@ -125,6 +142,7 @@ const ProductState = (props) => {
         products: state.products,
         productError: state.productError,
         getProducts,
+        getSortedProducts,
         getSpecificProduct,
         deleteProduct,
         createProduct,

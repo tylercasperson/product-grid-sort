@@ -1,18 +1,21 @@
 import React from 'react';
+import Card from 'react-bootstrap/Card';
 
 const ProductCard = (props) => {
   return (
-    <div className='card'>
-      <div className='header'>
-        <img src={props.imgSrc} alt={props.alt} />
-        <h2>{props.title}</h2>
-      </div>
-      <div className='content'>
-        <p>{props.description}</p>
-        <h3>{props.price}</h3>
-        <h3>{props.quantity}</h3>
-      </div>
-    </div>
+    <Card className='productCard'>
+      <Card.Img variant='top' src={props.imgSrc} />
+      <Card.Body>
+        <Card.Title>
+          <h2 className='title'>{props.title}</h2>
+        </Card.Title>
+        <div className='cardText'>
+          <p className='description'>{props.description}</p>
+          <h5 className='price'>{props.price}</h5>
+          <h5 className='quantity'>{props.quantity}</h5>
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 

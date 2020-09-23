@@ -17,6 +17,18 @@ router.get('/api/products', async (req, res) => {
   }
 });
 
+router.get('/api/products/:column/:sort', async (req, res) => {
+  try {
+    const products = await db.products.findAll({
+      order: [[req.params.column, req.params.sort]],
+    });
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
 router.get('/api/products/:id', async (req, res) => {
   try {
     const products = await db.products.findAll({
