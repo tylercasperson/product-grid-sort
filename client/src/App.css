@@ -16,19 +16,27 @@ img {
 }
 table {
   width: 90vw;
+  display: table;
 }
 .header {
   text-align: center;
   background: gray;
   color: white;
 }
-.title {
-  text-transform: capitalize;
-}
-td {
-  text-align: center;
-}
 .edit {
   text-align: center;
   background: lightgray;
+}
+textarea {
+  border: none;
+  background: none;
+  height: 120px;
+  width: 100%;
+  text-align: center;
+}
+.delete {
+  background: lightcoral;
+}
+.save {
+  background: lightblue;
 }

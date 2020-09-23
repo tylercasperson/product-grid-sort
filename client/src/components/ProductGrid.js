@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ProductContext from '../context/product/productContext';
 import ReadProductGrid from './ReadProductGrid';
+import ProductLineData from './ProductLineData';
+import ProductLine from './ProductLine';
 
 const ProductGrid = (props) => {
   const productContext = useContext(ProductContext);
@@ -25,30 +27,35 @@ const ProductGrid = (props) => {
     getSortedProducts('title', 'ASC');
   };
 
-  const [icon, setIcon] = useState(<i className='sort fas fa-sort'></i>);
   const [tableBody, setTableBody] = useState(
     <ReadProductGrid edit={clickEdit} />
   );
 
-  const onClick = (column) => {
-    console.log(column);
-    // console.log(ref.toString());
+  const sort = (column) => {
+    const iconChange = document.getElementById(column + 'Icon').classList;
 
-    switch (column) {
+    switch (iconChange[2]) {
       case 'sort':
-        setIcon(<i className='asc fas fa-sort-up'></i>);
+        iconChange.remove('sort');
+        iconChange.remove('fa-sort');
+        iconChange.add('fa-sort-up');
+        iconChange.add('asc');
         getSortedProducts(column, 'ASC');
         break;
       case 'asc':
-        setIcon(<i className='desc fas fa-sort-down'></i>);
+        iconChange.remove('asc');
+        iconChange.remove('fa-sort-up');
+        iconChange.add('fa-sort-down');
+        iconChange.add('desc');
         getSortedProducts(column, 'DESC');
         break;
       default:
-        setIcon(<i className='sort fas fa-sort'></i>);
+        iconChange.remove('fa-sort-down');
+        iconChange.remove('desc');
+        iconChange.add('fa-sort');
+        iconChange.add('sort');
         getSortedProducts('id', 'ASC');
     }
-
-    console.log(products);
   };
 
   return (
@@ -57,25 +64,49 @@ const ProductGrid = (props) => {
         <thead>
           <tr>
             <th></th>
-            <th className='header' onClick={() => onClick('title')}>
-              Title {icon}
+            <th></th>
+            <th
+              id='titleHeader'
+              className='header'
+              onClick={() => sort('title')}
+            >
+              Title <i id='titleIcon' className='fas fa-sort sort'></i>
             </th>
-            <th className='header' onClick={() => onClick('description')}>
-              Description {icon}
+            <th
+              id='descriptionHeader'
+              className='header'
+              onClick={() => sort('description')}
+            >
+              Description{' '}
+              <i id='descriptionIcon' className='fas fa-sort sort'></i>
             </th>
-            <th className='header' onClick={() => onClick('price')}>
-              Price {icon}
+            <th
+              id='priceHeader'
+              className='header'
+              onClick={() => sort('price')}
+            >
+              Price <i id='priceIcon' className='fas fa-sort sort'></i>
             </th>
-            <th className='header' onClick={() => onClick('quantity')}>
-              Quantiity {icon}
+            <th
+              id='quantityHeader'
+              className='header'
+              onClick={() => sort('quantity')}
+            >
+              Quantiity <i id='quantityIcon' className='fas fa-sort sort'></i>
             </th>
-            <th className='header' onClick={() => onClick('imageURL')}>
-              Image {icon}
+            <th
+              id='imageHeader'
+              className='header'
+              onClick={() => sort('imageURL')}
+            >
+              Image <i id='imageIcon' className='fas fa-sort sort'></i>
             </th>
             <th></th>
           </tr>
         </thead>
-        {tableBody}
+
+        <ProductLineData />
+        <ProductLine />
       </Table>
     </div>
   );

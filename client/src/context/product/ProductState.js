@@ -70,7 +70,7 @@ const ProductState = (props) => {
   };
 
   // Add Product
-  const createProduct = async (product) => {
+  const addProduct = async (product) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const ProductState = (props) => {
         getSortedProducts,
         getSpecificProduct,
         deleteProduct,
-        createProduct,
+        addProduct,
         updateProduct,
       }}
     >
