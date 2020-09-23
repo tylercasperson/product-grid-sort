@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ProductContext from '../context/product/productContext';
+import ReadProductGrid from './ReadProductGrid';
 
 const ProductGrid = (props) => {
   const productContext = useContext(ProductContext);
@@ -15,37 +16,25 @@ const ProductGrid = (props) => {
     // deleteProduct,
   } = productContext;
 
-  useEffect(() => {
-    getProducts();
-    // eslint-disable-next-line
-  }, []);
+  //   useEffect(() => {
+  //     getProducts();
+  //     // eslint-disable-next-line
+  //   }, []);
 
-  const title = useRef('');
-  const description = useRef('');
-  const price = useRef();
-  const quantity = useRef();
-  const imageURL = useRef();
+  const clickEdit = () => {
+    getSortedProducts('title', 'ASC');
+  };
 
   const [icon, setIcon] = useState(<i className='sort fas fa-sort'></i>);
-  const [descriptionIcon, setDescriptionIcon] = useState(
-    <i className='sort fas fa-sort'></i>
-  );
-  const [priceIcon, setPriceIcon] = useState(
-    <i className='sort fas fa-sort'></i>
-  );
-  const [quantityIcon, setQuantityIcon] = useState(
-    <i className='sort fas fa-sort'></i>
-  );
-  const [imageIcon, setImageIcon] = useState(
-    <i className='sort fas fa-sort'></i>
+  const [tableBody, setTableBody] = useState(
+    <ReadProductGrid edit={clickEdit} />
   );
 
-  const onClick = (column, ref) => {
+  const onClick = (column) => {
     console.log(column);
     // console.log(ref.toString());
 
-    console.log(ref.current.children[0].classList[0]);
-    switch (ref.current.children[0].classList[0]) {
+    switch (column) {
       case 'sort':
         setIcon(<i className='asc fas fa-sort-up'></i>);
         getSortedProducts(column, 'ASC');
@@ -62,71 +51,31 @@ const ProductGrid = (props) => {
     console.log(products);
   };
 
-  const edit = () => {
-    getSortedProducts('title', 'ASC');
-  };
-
   return (
     <div>
       <Table striped bordered hover>
         <thead>
           <tr>
             <th></th>
-            <th
-              ref={title}
-              className='header'
-              onClick={() => onClick('title', title)}
-            >
+            <th className='header' onClick={() => onClick('title')}>
               Title {icon}
             </th>
-            <th
-              ref={description}
-              className='header'
-              onClick={() => onClick('description', description)}
-            >
-              Description {descriptionIcon}
+            <th className='header' onClick={() => onClick('description')}>
+              Description {icon}
             </th>
-            <th
-              ref={price}
-              className='header'
-              onClick={() => onClick('price', price)}
-            >
-              Price {priceIcon}
+            <th className='header' onClick={() => onClick('price')}>
+              Price {icon}
             </th>
-            <th
-              ref={quantity}
-              className='header'
-              onClick={() => onClick('quantity', quantity)}
-            >
-              Quantiity {quantityIcon}
+            <th className='header' onClick={() => onClick('quantity')}>
+              Quantiity {icon}
             </th>
-            <th
-              ref={imageURL}
-              className='header'
-              onClick={() => onClick('imageURL', imageURL)}
-            >
-              Image {imageIcon}
+            <th className='header' onClick={() => onClick('imageURL')}>
+              Image {icon}
             </th>
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td className='edit' onClick={edit}>
-                Edit
-              </td>
-              <td className='title'>{product.title}</td>
-              <td>{product.description}</td>
-              <td>{product.price}</td>
-              <td>{product.quantity}</td>
-              <td>{product.imageURL}</td>
-              <td>
-                <img src={product.imageURL} alt='' />
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        {tableBody}
       </Table>
     </div>
   );
