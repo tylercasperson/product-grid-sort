@@ -5,15 +5,28 @@ import ProductLine from './ProductLine';
 const ProductLineData = (props) => {
   const productContext = useContext(ProductContext);
 
-  const { products, getProducts } = productContext;
+  const { products, getProducts, deleteProduct } = productContext;
 
   useEffect(() => {
     getProducts();
+    deleteProduct();
     // eslint-disable-next-line
   }, []);
 
+  const onSave = () => {
+    // if (lineItem === null) {
+    //   addProduct(lineItem);
+    // } else {
+    //   updateProduct(lineItem);
+    // }
+  };
+
+  const onDelete = (id) => {
+    deleteProduct(id);
+  };
+
   return (
-    <tbody>
+    <>
       {products.map((product) => (
         <ProductLine
           key={product.id}
@@ -22,9 +35,11 @@ const ProductLineData = (props) => {
           price={product.price}
           quantity={product.quantity}
           imageURL={product.imageURL}
+          onDelete={() => onDelete(product.id)}
+          onSave={() => onSave()}
         />
       ))}
-    </tbody>
+    </>
   );
 };
 

@@ -18,24 +18,12 @@ const ProductLine = (props) => {
     setLineItem({ ...lineItem, [e.target.name]: e.target.value });
   };
 
-  const onSave = () => {
-    if (lineItem === null) {
-      addProduct(lineItem);
-    } else {
-      updateProduct(lineItem);
-    }
-  };
-
-  const onDelete = () => {
-    deleteProduct(lineItem);
-  };
-
   return (
     <tr>
-      <td className='delete' onClick={onDelete}>
+      <td className='delete' onClick={props.onDelete}>
         Delete
       </td>
-      <td className='save' onClick={onSave}>
+      <td className='save' onClick={props.onSave}>
         Save
       </td>
       <td className='title'>

@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ProductContext from '../context/product/productContext';
-import ReadProductGrid from './ReadProductGrid';
 import ProductLineData from './ProductLineData';
 import ProductLine from './ProductLine';
 
@@ -26,10 +25,6 @@ const ProductGrid = (props) => {
   const clickEdit = () => {
     getSortedProducts('title', 'ASC');
   };
-
-  const [tableBody, setTableBody] = useState(
-    <ReadProductGrid edit={clickEdit} />
-  );
 
   const sort = (column) => {
     const iconChange = document.getElementById(column + 'Icon').classList;
@@ -104,9 +99,10 @@ const ProductGrid = (props) => {
             <th></th>
           </tr>
         </thead>
-
-        <ProductLineData />
-        <ProductLine />
+        <tbody>
+          <ProductLineData />
+          <ProductLine />
+        </tbody>
       </Table>
     </div>
   );
