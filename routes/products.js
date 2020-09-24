@@ -42,6 +42,8 @@ router.get('/api/products/:id', async (req, res) => {
 });
 
 router.post('/api/products', async (req, res) => {
+  console.log(req.body);
+  console.log(req.body.price === '');
   try {
     const newProduct = await db.products.create({
       title: req.body.title,
@@ -58,6 +60,7 @@ router.post('/api/products', async (req, res) => {
 });
 
 router.put('/api/products/:id', async (req, res) => {
+  console.log(req.body);
   try {
     const updateProduct = await db.products.update(
       {

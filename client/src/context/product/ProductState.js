@@ -9,12 +9,13 @@ import {
   DELETE_PRODUCT,
   PRODUCT_ERROR,
   SET_CURRENT,
+  CLEAR_CURRENT,
 } from '../types';
 
 const ProductState = (props) => {
   const initialState = {
     products: [],
-    productError: [],
+    productError: null,
     current: [],
   };
 
@@ -96,6 +97,7 @@ const ProductState = (props) => {
 
   // Update Product
   const updateProduct = async (product) => {
+    console.log('update: ', product);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -146,6 +148,11 @@ const ProductState = (props) => {
     });
   };
 
+  // Clear Current Contact
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -159,6 +166,7 @@ const ProductState = (props) => {
         addProduct,
         updateProduct,
         setCurrent,
+        clearCurrent,
       }}
     >
       {props.children}

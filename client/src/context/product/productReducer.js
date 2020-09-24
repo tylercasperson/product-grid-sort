@@ -5,6 +5,7 @@ import {
   DELETE_PRODUCT,
   PRODUCT_ERROR,
   SET_CURRENT,
+  CLEAR_CURRENT,
 } from '../types';
 
 export default (state, action) => {
@@ -43,7 +44,11 @@ export default (state, action) => {
         ...state,
         current: action.payload,
       };
-
+    case CLEAR_CURRENT:
+      return {
+        ...state,
+        current: null,
+      };
     default:
       return state;
   }

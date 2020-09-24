@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import ProductContext from '../context/product/productContext';
+import ProductData from './ProductData';
 import ProductLine from './ProductLine';
 
 const ProductGrid = () => {
@@ -8,46 +9,60 @@ const ProductGrid = () => {
 
   const {
     products,
-    current,
     getProducts,
     getSortedProducts,
-    deleteProduct,
     addProduct,
     updateProduct,
-    // setCurrent,
   } = productContext;
 
   useEffect(() => {
     getProducts();
-  }, [productContext, getProducts, current]);
+    // eslint-disable-next-line
+  }, []);
 
+  const [tableSort, setTableSort] = useState({
+    column: 'id',
+    sort: 'ASC',
+  });
   const [lineItem, setLineItem] = useState({
     id: '',
     title: '',
     description: '',
-    price: '',
-    quantity: '',
+    price: 0,
+    quantity: 0,
     imageURL: '',
   });
 
-  const { title, description, price, quantity, imageURL } = lineItem;
+  // const { title, description, price, quantity, imageURL } = lineItem;
 
-  const onClick = (productLine) => {
-    setLineItem(productLine);
-    console.log(lineItem);
-  };
+  // const onClick = (productLine) => {
+  //   console.log(lineItem.id);
+  //   // setRecord(productLine.id);
+  //   setLineItem(productLine);
+  //   updateProduct(lineItem);
+  //   // clearLine();
+
+  //   // console.log(products);
+  //   // console.log(record);
+  // };
 
   const onChange = (e) => {
     setLineItem({ ...lineItem, [e.target.name]: e.target.value });
   };
 
-  const onSave = (key) => {
-    if (key === null) {
+  const addItem = (lineItem) => {
+    const { title, description, price, quantity, imageURL } = lineItem;
+
+    if (
+      title !== '' ||
+      description !== '' ||
+      price !== 0 ||
+      quantity !== 0 ||
+      imageURL !== ''
+    ) {
       addProduct(lineItem);
-      //   getProducts();
-      //   window.location.reload();
-    } else {
-      updateProduct(lineItem);
+      getSortedProducts(tableSort.column, tableSort.sort);
+      clearLine();
     }
   };
 
@@ -56,15 +71,22 @@ const ProductGrid = () => {
       id: '',
       title: '',
       description: '',
-      price: '',
-      quantity: '',
+      price: 0,
+      quantity: 0,
       imageURL: '',
     });
-    // window.location.reload();
+    const textarea = document.getElementById('newLine').childNodes;
+    textarea[2].childNodes[0].value = null;
+    textarea[3].childNodes[0].value = null;
+    textarea[4].childNodes[0].value = null;
+    textarea[5].childNodes[0].value = null;
+    textarea[6].childNodes[0].value = null;
+    textarea[7].childNodes[0].value = null;
   };
 
   const sort = (column) => {
     const iconChange = document.getElementById(column + 'Icon').classList;
+    setTableSort({ column: column, sort: iconChange[2] });
 
     switch (iconChange[2]) {
       case 'sort':
@@ -137,47 +159,14 @@ const ProductGrid = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <ProductLine
-              key={product.id}
-              title={lineItem.id === product.id ? title : product.title}
-              description={
-                lineItem.id === product.id ? description : product.description
-              }
-              price={lineItem.id === product.id ? price : product.price}
-              quantity={
-                lineItem.id === product.id ? quantity : product.quantity
-              }
-              imageURL={
-                lineItem.id === product.id ? imageURL : product.imageURL
-              }
-              onDelete={() => deleteProduct(product.id)}
-              addSaveText='Save'
-              onSave={() => onSave(lineItem)}
-              onChange={onChange}
-              onClick={() => onClick(product, product.id)}
-            />
-          ))}
+          <ProductData productListing={products} />
           <ProductLine
-            title={lineItem.id === null ? title : ''}
-            description={lineItem.id === null ? description : ''}
-            price={lineItem.id === null ? price : ''}
-            quantity={lineItem.id === null ? quantity : ''}
-            imageURL={lineItem.id === null ? imageURL : ''}
+            id='newLine'
             onDelete={() => clearLine()}
             addSaveText='Add'
-            onSave={() => onSave(null)}
+            onSave={() => addItem(lineItem)}
             onChange={onChange}
-            onClick={() =>
-              onClick({
-                id: '',
-                title: '',
-                description: '',
-                price: '',
-                quantity: '',
-                imageURL: '',
-              })
-            }
+            // onClick={() => onClick()}
           />
         </tbody>
       </Table>

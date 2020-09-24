@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProductLine = (props) => {
   return (
-    <tr>
+    <tr id={props.id}>
       <td className='delete' onClick={props.onDelete}>
         Delete
       </td>

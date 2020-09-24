@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ProductGrid from '../components/ProductGrid';
+import ProductGrid from '../components/ProductTable';
 
 const Products = () => {
   return (
