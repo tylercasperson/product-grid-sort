@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import ProductContext from '../context/product/productContext';
+import Button from 'react-bootstrap/Button';
+import ProductContext from '../../context/product/productContext';
 import ProductData from './ProductData';
 import ProductLine from './ProductLine';
 
-const ProductGrid = () => {
+const ProductTable = () => {
   const productContext = useContext(ProductContext);
 
   const {
@@ -12,7 +13,7 @@ const ProductGrid = () => {
     getProducts,
     getSortedProducts,
     addProduct,
-    updateProduct,
+    resetData,
   } = productContext;
 
   useEffect(() => {
@@ -32,19 +33,6 @@ const ProductGrid = () => {
     quantity: 0,
     imageURL: '',
   });
-
-  // const { title, description, price, quantity, imageURL } = lineItem;
-
-  // const onClick = (productLine) => {
-  //   console.log(lineItem.id);
-  //   // setRecord(productLine.id);
-  //   setLineItem(productLine);
-  //   updateProduct(lineItem);
-  //   // clearLine();
-
-  //   // console.log(products);
-  //   // console.log(record);
-  // };
 
   const onChange = (e) => {
     setLineItem({ ...lineItem, [e.target.name]: e.target.value });
@@ -114,6 +102,10 @@ const ProductGrid = () => {
 
   return (
     <div>
+      <Button variant='primary' size='lg' block onClick={() => resetData()}>
+        Reset to original data
+      </Button>
+
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -161,12 +153,10 @@ const ProductGrid = () => {
         <tbody>
           <ProductData productListing={products} />
           <ProductLine
-            id='newLine'
             onDelete={() => clearLine()}
             addSaveText='Add'
             onSave={() => addItem(lineItem)}
             onChange={onChange}
-            // onClick={() => onClick()}
           />
         </tbody>
       </Table>
@@ -174,4 +164,4 @@ const ProductGrid = () => {
   );
 };
 
-export default ProductGrid;
+export default ProductTable;

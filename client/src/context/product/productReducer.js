@@ -47,7 +47,7 @@ export default (state, action) => {
     case CLEAR_CURRENT:
       return {
         ...state,
-        current: null,
+        current: [],
       };
     default:
       return state;

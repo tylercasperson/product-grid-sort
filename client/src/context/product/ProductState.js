@@ -15,7 +15,7 @@ import {
 const ProductState = (props) => {
   const initialState = {
     products: [],
-    productError: null,
+    productError: [],
     current: [],
   };
 
@@ -97,7 +97,6 @@ const ProductState = (props) => {
 
   // Update Product
   const updateProduct = async (product) => {
-    console.log('update: ', product);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -153,6 +152,25 @@ const ProductState = (props) => {
     dispatch({ type: CLEAR_CURRENT });
   };
 
+  // reset All
+  const resetData = async () => {
+    try {
+      await axios.delete('/api/product/deleteAll');
+      await axios.post('/api/product/reset');
+      const res = await axios.get('/api/products');
+
+      dispatch({
+        type: GET_PRODUCTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: PRODUCT_ERROR,
+        payload: err,
+      });
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -167,6 +185,7 @@ const ProductState = (props) => {
         updateProduct,
         setCurrent,
         clearCurrent,
+        resetData,
       }}
     >
       {props.children}

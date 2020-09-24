@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import ProductContext from '../context/product/productContext';
+import ProductContext from '../../context/product/productContext';
 import ProductLine from './ProductLine';
 
 const ProductData = ({ productListing }) => {
@@ -12,6 +12,7 @@ const ProductData = ({ productListing }) => {
     updateProduct,
     current,
     setCurrent,
+    clearCurrent,
   } = productContext;
 
   const [line, setLine] = useState({
@@ -41,6 +42,7 @@ const ProductData = ({ productListing }) => {
   }, [productContext, current]);
 
   const onClick = (productRow) => {
+    clearCurrent();
     setCurrent(productRow);
     updateProduct(line);
     getProducts();
@@ -60,7 +62,7 @@ const ProductData = ({ productListing }) => {
           imageURL={line.id === productRow.id ? imageURL : productRow.imageURL}
           onDelete={() => deleteProduct(productRow.id)}
           addSaveText='Save'
-          onSave={() => updateProduct(line)}
+          onSave={() => onClick(productRow)}
           onChange={(e) =>
             setLine({
               ...line,
