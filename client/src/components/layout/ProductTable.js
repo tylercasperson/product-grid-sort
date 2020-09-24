@@ -14,6 +14,7 @@ const ProductTable = () => {
     getSortedProducts,
     addProduct,
     resetData,
+    clearCurrent,
   } = productContext;
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const ProductTable = () => {
   };
 
   const clearLine = () => {
+    clearCurrent();
     setLineItem({
       id: '',
       title: '',

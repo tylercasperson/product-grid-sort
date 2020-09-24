@@ -16,7 +16,7 @@ const ProductData = ({ productListing }) => {
   } = productContext;
 
   const [line, setLine] = useState({
-    id: '',
+    id: 0,
     title: '',
     description: '',
     price: 0,
@@ -31,7 +31,7 @@ const ProductData = ({ productListing }) => {
       setLine(current);
     } else {
       setLine({
-        id: ' ',
+        id: 0,
         title: ' ',
         description: ' ',
         price: 0,
@@ -41,11 +41,17 @@ const ProductData = ({ productListing }) => {
     }
   }, [productContext, current]);
 
-  const onClick = (productRow) => {
-    clearCurrent();
-    setCurrent(productRow);
-    updateProduct(line);
-    getProducts();
+  const onClick = (productRow, line) => {
+    if (productRow.id === line.id) {
+      setCurrent(productRow);
+      updateProduct(line);
+      getProducts();
+      clearCurrent();
+    } else {
+      setCurrent(productRow);
+      updateProduct(line);
+      getProducts();
+    }
   };
 
   return (
@@ -62,14 +68,14 @@ const ProductData = ({ productListing }) => {
           imageURL={line.id === productRow.id ? imageURL : productRow.imageURL}
           onDelete={() => deleteProduct(productRow.id)}
           addSaveText='Save'
-          onSave={() => onClick(productRow)}
+          onSave={() => onClick(productRow, line)}
           onChange={(e) =>
             setLine({
               ...line,
               [e.target.name]: e.target.value,
             })
           }
-          onClick={() => onClick(productRow)}
+          onClick={() => onClick(productRow, line)}
         />
       ))}
     </>
