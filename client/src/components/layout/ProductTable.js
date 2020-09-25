@@ -155,6 +155,7 @@ const ProductTable = () => {
         <tbody>
           <ProductData productListing={products} />
           <ProductLine
+            id='newLine'
             onDelete={() => clearLine()}
             addSaveText='Add'
             onSave={() => addItem(lineItem)}
