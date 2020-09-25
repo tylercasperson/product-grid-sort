@@ -8,8 +8,14 @@ module.exports = function (sequelize, DataTypes) {
     },
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    price: DataTypes.DECIMAL,
-    quantity: DataTypes.INTEGER,
+    price: {
+      type: DataTypes.DECIMAL,
+      isDecimal: true,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
+      isInt: true,
+    },
     imageURL: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

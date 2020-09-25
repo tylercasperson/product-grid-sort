@@ -42,21 +42,20 @@ const ProductData = ({ productListing }) => {
   }, [productContext, current]);
 
   const onClick = (productRow, line) => {
+    updateProduct(line);
     if (productRow.id === line.id) {
-      updateProduct(line);
       clearCurrent();
     } else {
       setCurrent(productRow);
-      updateProduct(line);
     }
     getProducts();
     setLine({
       id: 0,
-      title: ' ',
-      description: ' ',
+      title: '',
+      description: '',
       price: 0,
       quantity: 0,
-      imageURL: ' ',
+      imageURL: '',
     });
   };
 
